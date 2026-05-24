@@ -8,7 +8,7 @@ GO
 -- ========================
 -- SEED: Roles
 -- ========================
-INSERT INTO Roles (Id, RoleCode, RoleName, RoleDescription, TenantLevel, IsSystemRole, SortOrder) VALUES
+INSERT INTO VaiTro (Id, MaVaiTro, TenVaiTro, MoTaVaiTro, CapDoDoiTac, LaVaiTroHeThong, ThuTu) VALUES
 (NEWID(), 'SYSTEM_ADMIN',    N'Quản trị hệ thống',   N'Full access toàn hệ thống',        0, 1, 1),
 (NEWID(), 'HQ_ADMIN',        N'HQ Administrator',     N'Quản trị HQ TWL',                  1, 1, 2),
 (NEWID(), 'BRANCH_OWNER',    N'Chủ chi nhánh',        N'Owner của branch/company',          2, 1, 3),
@@ -25,7 +25,7 @@ GO
 -- ========================
 -- SEED: Permissions
 -- ========================
-INSERT INTO Permissions (Id, PermissionCode, PermissionName, Module, Action) VALUES
+INSERT INTO QuyenHan (Id, MaQuyenHan, TenQuyenHan, Module, HanhDong) VALUES
 -- Dashboard
 (NEWID(), 'dashboard.view',         N'Xem Dashboard',              'DASHBOARD',   'VIEW'),
 (NEWID(), 'dashboard.hq',           N'Dashboard HQ tổng hợp',      'DASHBOARD',   'VIEW_HQ'),

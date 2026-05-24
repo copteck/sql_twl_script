@@ -6,82 +6,82 @@
 USE TWL_MASTER;
 GO
 
-CREATE TABLE InsuranceProviders (
+CREATE TABLE NhaCungCapBaoHiem (
     Id                       UNIQUEIDENTIFIER  NOT NULL DEFAULT NEWSEQUENTIALID(),
-    ProviderCode             NVARCHAR(50)      NOT NULL,  -- BAOVIET|LIBERTY|BSH|PTI|MIC|BIC
-    ProviderName             NVARCHAR(255)     NOT NULL,
-    ProviderNameEn           NVARCHAR(255)     NULL,
-    ShortName                NVARCHAR(50)      NULL,
-    ProviderType             NVARCHAR(30)      NOT NULL DEFAULT 'INSURANCE_COMPANY',
-    TaxCode                  NVARCHAR(20)      NULL,
-    LicenseNumber            NVARCHAR(100)     NULL,
-    LicenseExpiry            DATE              NULL,
-    HeadquarterAddress       NVARCHAR(500)     NULL,
+    MaNCC                    NVARCHAR(50)      NOT NULL,  -- BAOVIET|LIBERTY|BSH|PTI|MIC|BIC
+    TenNCC                   NVARCHAR(255)     NOT NULL,
+    TenNCCEn                 NVARCHAR(255)     NULL,
+    TenVietTat               NVARCHAR(50)      NULL,
+    LoaiNCC                  NVARCHAR(30)      NOT NULL DEFAULT 'INSURANCE_COMPANY',
+    MaSoThue                 NVARCHAR(20)      NULL,
+    SoGiayPhep               NVARCHAR(100)     NULL,
+    NgayHetHanGP             DATE              NULL,
+    DiaChiTruSo              NVARCHAR(500)     NULL,
     Website                  NVARCHAR(255)     NULL,
-    HotlinePhone             NVARCHAR(20)      NULL,
-    ClaimPhone               NVARCHAR(20)      NULL,
-    EmailGeneral             NVARCHAR(255)     NULL,
-    EmailReconcile           NVARCHAR(255)     NULL,
-    ContactPersonName        NVARCHAR(255)     NULL,
-    ContactPersonPhone       NVARCHAR(20)      NULL,
-    ContactPersonEmail       NVARCHAR(255)     NULL,
+    SdtHotline               NVARCHAR(20)      NULL,
+    SdtBoiThuong             NVARCHAR(20)      NULL,
+    EmailChung               NVARCHAR(255)     NULL,
+    EmailDoiSoat             NVARCHAR(255)     NULL,
+    TenNguoiLienHe           NVARCHAR(255)     NULL,
+    SdtNguoiLienHe           NVARCHAR(20)      NULL,
+    EmailNguoiLienHe         NVARCHAR(255)     NULL,
     -- API Integration
-    ApiBaseUrl               NVARCHAR(500)     NULL,
-    ApiAuthType              NVARCHAR(20)      NULL,  -- BASIC|BEARER|APIKEY|OAUTH2
-    ApiCredentialEncrypted   NVARCHAR(MAX)     NULL,
-    ApiVersion               NVARCHAR(20)      NULL,
-    HasRealtimeQuote         BIT               NOT NULL DEFAULT 0,
-    HasAutoIssuance          BIT               NOT NULL DEFAULT 0,
-    ApiTimeoutSeconds        INT               NOT NULL DEFAULT 30,
-    ApiRetryCount            INT               NOT NULL DEFAULT 3,
+    UrlGocApi                NVARCHAR(500)     NULL,
+    LoaiXacThucApi           NVARCHAR(20)      NULL,  -- BASIC|BEARER|APIKEY|OAUTH2
+    ThongTinXacThucMaHoa     NVARCHAR(MAX)     NULL,
+    PhienBanApi              NVARCHAR(20)      NULL,
+    CoBaoGiaThucTe           BIT               NOT NULL DEFAULT 0,
+    CoPhatHanhTuDong         BIT               NOT NULL DEFAULT 0,
+    ThoiGianChoApi           INT               NOT NULL DEFAULT 30,
+    SoLanThuLaiApi           INT               NOT NULL DEFAULT 3,
     -- Agency Contract
-    AgencyContractNo         NVARCHAR(100)     NULL,
-    AgencyContractDate       DATE              NULL,
-    AgencyContractExpiry     DATE              NULL,
-    AgencyContractFileUrl    NVARCHAR(500)     NULL,
-    DefaultCommissionRate    DECIMAL(5,4)      NULL,
-    LogoUrl                  NVARCHAR(500)     NULL,
-    BrandColor               NVARCHAR(20)      NULL,
-    IsActive                 BIT               NOT NULL DEFAULT 1,
-    SortOrder                INT               NOT NULL DEFAULT 0,
-    Notes                    NVARCHAR(MAX)     NULL,
-    CreatedAt                DATETIME2         NOT NULL DEFAULT GETUTCDATE(),
-    UpdatedAt                DATETIME2         NULL,
-    CONSTRAINT PK_InsuranceProviders PRIMARY KEY (Id),
-    CONSTRAINT UQ_InsuranceProviders_Code UNIQUE (ProviderCode)
+    SoHopDongDaiLy           NVARCHAR(100)     NULL,
+    NgayHopDongDaiLy         DATE              NULL,
+    NgayHetHanHDDL           DATE              NULL,
+    UrlFileHopDongDL         NVARCHAR(500)     NULL,
+    TyLeHoaHongMacDinh       DECIMAL(5,4)      NULL,
+    UrlLogo                  NVARCHAR(500)     NULL,
+    MauThuongHieu            NVARCHAR(20)      NULL,
+    ConHoatDong              BIT               NOT NULL DEFAULT 1,
+    ThuTu                    INT               NOT NULL DEFAULT 0,
+    GhiChu                   NVARCHAR(MAX)     NULL,
+    NgayTao                  DATETIME2         NOT NULL DEFAULT GETUTCDATE(),
+    NgayCapNhat              DATETIME2         NULL,
+    CONSTRAINT PK_NhaCungCapBaoHiem PRIMARY KEY (Id),
+    CONSTRAINT UQ_NhaCungCapBaoHiem_MaNCC UNIQUE (MaNCC)
 );
 GO
 
-CREATE TABLE ProviderBankAccounts (
-    Id              UNIQUEIDENTIFIER  NOT NULL DEFAULT NEWSEQUENTIALID(),
-    ProviderId      UNIQUEIDENTIFIER  NOT NULL REFERENCES InsuranceProviders(Id),
-    AccountType     NVARCHAR(20)      NOT NULL,  -- RECEIVE_PREMIUM|PAY_COMMISSION
-    BankName        NVARCHAR(100)     NOT NULL,
-    BankCode        NVARCHAR(20)      NULL,
-    BankBranch      NVARCHAR(200)     NULL,
-    AccountNumber   NVARCHAR(50)      NOT NULL,
-    AccountName     NVARCHAR(255)     NOT NULL,
-    IsDefault       BIT               NOT NULL DEFAULT 0,
-    IsActive        BIT               NOT NULL DEFAULT 1,
-    CreatedAt       DATETIME2         NOT NULL DEFAULT GETUTCDATE(),
-    CONSTRAINT PK_ProviderBankAccounts PRIMARY KEY (Id)
-);
-GO
-
-CREATE TABLE CommissionProviderRate (
+CREATE TABLE TaiKhoanNganHangNCC (
     Id                UNIQUEIDENTIFIER  NOT NULL DEFAULT NEWSEQUENTIALID(),
-    ProviderId        UNIQUEIDENTIFIER  NOT NULL REFERENCES InsuranceProviders(Id),
-    MasterProductId   UNIQUEIDENTIFIER  NOT NULL,
-    CommissionRate    DECIMAL(5,4)      NOT NULL,
-    BonusRate         DECIMAL(5,4)      NULL,
-    BonusCondition    NVARCHAR(MAX)     NULL,
-    EffectiveFrom     DATE              NOT NULL,
-    EffectiveTo       DATE              NULL,
-    ContractRef       NVARCHAR(100)     NULL,
-    Notes             NVARCHAR(500)     NULL,
-    IsActive          BIT               NOT NULL DEFAULT 1,
-    CreatedAt         DATETIME2         NOT NULL DEFAULT GETUTCDATE(),
-    CreatedBy         UNIQUEIDENTIFIER  NULL,
-    CONSTRAINT PK_CommissionProviderRate PRIMARY KEY (Id)
+    NhaCungCapId      UNIQUEIDENTIFIER  NOT NULL REFERENCES NhaCungCapBaoHiem(Id),
+    LoaiTaiKhoan      NVARCHAR(20)      NOT NULL,  -- RECEIVE_PREMIUM|PAY_COMMISSION
+    TenNganHang       NVARCHAR(100)     NOT NULL,
+    MaNganHang        NVARCHAR(20)      NULL,
+    ChiNhanhNganHang  NVARCHAR(200)     NULL,
+    SoTaiKhoan        NVARCHAR(50)      NOT NULL,
+    TenTaiKhoan       NVARCHAR(255)     NOT NULL,
+    LaMacDinh         BIT               NOT NULL DEFAULT 0,
+    ConHoatDong       BIT               NOT NULL DEFAULT 1,
+    NgayTao           DATETIME2         NOT NULL DEFAULT GETUTCDATE(),
+    CONSTRAINT PK_TaiKhoanNganHangNCC PRIMARY KEY (Id)
+);
+GO
+
+CREATE TABLE TyLeHoaHongNCC (
+    Id              UNIQUEIDENTIFIER  NOT NULL DEFAULT NEWSEQUENTIALID(),
+    NhaCungCapId    UNIQUEIDENTIFIER  NOT NULL REFERENCES NhaCungCapBaoHiem(Id),
+    SanPhamGocId    UNIQUEIDENTIFIER  NOT NULL,
+    TyLeHoaHong     DECIMAL(5,4)      NOT NULL,
+    TyLeThuong      DECIMAL(5,4)      NULL,
+    DieuKienThuong  NVARCHAR(MAX)     NULL,
+    HieuLucTu       DATE              NOT NULL,
+    HieuLucDen      DATE              NULL,
+    SoThamChieuHD   NVARCHAR(100)     NULL,
+    GhiChu          NVARCHAR(500)     NULL,
+    ConHoatDong     BIT               NOT NULL DEFAULT 1,
+    NgayTao         DATETIME2         NOT NULL DEFAULT GETUTCDATE(),
+    NguoiTao        UNIQUEIDENTIFIER  NULL,
+    CONSTRAINT PK_TyLeHoaHongNCC PRIMARY KEY (Id)
 );
 GO

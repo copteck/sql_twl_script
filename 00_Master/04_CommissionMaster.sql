@@ -5,12 +5,12 @@
 USE TWL_MASTER;
 GO
 
-CREATE TABLE CommissionMasterTemplate (
+CREATE TABLE MauHoaHongGoc (
     Id                UNIQUEIDENTIFIER  NOT NULL DEFAULT NEWSEQUENTIALID(),
-    TemplateName      NVARCHAR(255)     NOT NULL,
-    TemplateCode      NVARCHAR(50)      NOT NULL,
-    MasterProductId   UNIQUEIDENTIFIER  NOT NULL REFERENCES MasterProducts(Id),
-    ProviderId        UNIQUEIDENTIFIER  NOT NULL REFERENCES InsuranceProviders(Id),
+    TenMau            NVARCHAR(255)     NOT NULL,
+    MaMau             NVARCHAR(50)      NOT NULL,
+    SanPhamGocId      UNIQUEIDENTIFIER  NOT NULL REFERENCES SanPhamGoc(Id),
+    NhaCungCapId      UNIQUEIDENTIFIER  NOT NULL REFERENCES NhaCungCapBaoHiem(Id),
     -- JSON cau hinh HH theo chuc vu:
     -- {"levels":[
     --   {"rankCode":"AGENT","rankName":"Agent","directRate":0.085,"overrideRate":0},
@@ -19,7 +19,7 @@ CREATE TABLE CommissionMasterTemplate (
     --   {"rankCode":"MANAGER","directRate":0.110,"overrideRate":0.005},
     --   {"rankCode":"DIRECTOR","directRate":0,"overrideRate":0.003}
     -- ]}
-    RateConfig        NVARCHAR(MAX)     NOT NULL,
+    CauHinhTyLe       NVARCHAR(MAX)     NOT NULL,
     -- JSON tier theo doanh thu:
     -- {"tiers":[
     --   {"minRevenue":0,"maxRevenue":20000000,"bonusRate":0},
@@ -27,15 +27,15 @@ CREATE TABLE CommissionMasterTemplate (
     --   {"minRevenue":50000001,"maxRevenue":100000000,"bonusRate":0.010},
     --   {"minRevenue":100000001,"maxRevenue":null,"bonusRate":0.020}
     -- ]}
-    TierConfig        NVARCHAR(MAX)     NULL,
-    MaxTotalRate      DECIMAL(5,4)      NOT NULL,
-    EffectiveFrom     DATE              NOT NULL,
-    EffectiveTo       DATE              NULL,
-    IsActive          BIT               NOT NULL DEFAULT 1,
-    CreatedAt         DATETIME2         NOT NULL DEFAULT GETUTCDATE(),
-    CreatedBy         UNIQUEIDENTIFIER  NULL,
-    UpdatedAt         DATETIME2         NULL,
-    CONSTRAINT PK_CommissionMasterTemplate PRIMARY KEY (Id),
-    CONSTRAINT UQ_CommissionTemplate_Code UNIQUE (TemplateCode)
+    CauHinhBacThang   NVARCHAR(MAX)     NULL,
+    TyLeToiDaTong     DECIMAL(5,4)      NOT NULL,
+    HieuLucTu         DATE              NOT NULL,
+    HieuLucDen        DATE              NULL,
+    ConHoatDong       BIT               NOT NULL DEFAULT 1,
+    NgayTao           DATETIME2         NOT NULL DEFAULT GETUTCDATE(),
+    NguoiTao          UNIQUEIDENTIFIER  NULL,
+    NgayCapNhat       DATETIME2         NULL,
+    CONSTRAINT PK_MauHoaHongGoc PRIMARY KEY (Id),
+    CONSTRAINT UQ_MauHoaHongGoc_Ma UNIQUE (MaMau)
 );
 GO

@@ -10,24 +10,21 @@
 ```
 twl-portal-database/
 ├── 00_Master/              ← HQ Master Database (TWL_MASTER)
-│   ├── 01_Tenants.sql
-│   ├── 02_InsuranceProviders.sql
-│   ├── 03_MasterProducts.sql
-│   ├── 04_CommissionMaster.sql
-│   └── 05_Identity.sql
+│   ├── 01_Tenants.sql          (DangKyDoiTac, CauHinhHeThong, LienKetSanPhamDoiTac)
+│   ├── 02_InsuranceProviders.sql (NhaCungCapBaoHiem, TaiKhoanNganHangNCC, TyLeHoaHongNCC)
+│   ├── 03_MasterProducts.sql   (DanhMucSanPham, SanPhamGoc, GoiSanPham, BangPhiBaoHiem, LichSuPhienBanSanPham)
+│   └── 04_CommissionMaster.sql  (MauHoaHongGoc)
 │
 ├── 01_Tenant/              ← Tenant Database (TWL_[BranchCode])
-│   ├── 01_BranchOrg.sql
-│   ├── 02_Agents.sql
-│   ├── 03_Customers_CRM.sql
-│   ├── 04_Pipeline.sql
-│   ├── 05_Policies.sql
-│   ├── 06_Payments.sql
-│   ├── 07_Commission.sql
-│   ├── 08_Reconciliation.sql
-│   ├── 09_LandingPage.sql
-│   ├── 10_Notifications.sql
-│   └── 11_AuditLog.sql
+│   ├── 01_BranchOrg.sql        (ThongTinChiNhanh, DonViToChuc, CapBacDaiLy, CauHinhHoaHong)
+│   ├── 02_Agents.sql           (DaiLy, LichSuCapBacDaiLy)
+│   ├── 03_Customers_CRM.sql    (KhachHang, LichSuLienHeKH, TaiLieuKhachHang)
+│   ├── 04_Pipeline.sql         (QuyTrinhBanHang, HoatDongBanHang, BaoGia)
+│   ├── 05_Policies.sql         (HopDong, LichSuTrangThaiHD, TaiLieuHopDong)
+│   ├── 06_Payments.sql         (GiaoDichThanhToan, NhatKyWebhook, LichTraGop)
+│   ├── 07_Commission.sql       (SoHoaHong, DotChiHoaHong, DuBaoHoaHong)
+│   ├── 08_Reconciliation.sql   (KyDoiSoat, ChiTietDoiSoat)
+│   └── 09_LandingPage.sql      (MauTrangDich, TrangDich, KhachTiemNangTrangDich, LuotXemTrangDich)
 │
 ├── 02_ReportDW/            ← Reporting Data Warehouse
 │   ├── 01_Dimensions.sql
@@ -35,15 +32,15 @@ twl-portal-database/
 │   └── 03_Views_Reports.sql
 │
 ├── 03_StoredProcedures/    ← Stored Procedures
-│   ├── SP_CalculateCommission.sql
-│   ├── SP_GenerateReconciliation.sql
-│   ├── SP_CommissionForecast.sql
-│   └── SP_DailyStatsSnapshot.sql
+│   ├── SP_TinhHoaHong.sql
+│   ├── SP_TaoDoiSoat.sql
+│   ├── SP_DuBaoHoaHong.sql
+│   └── SP_ThongKeHangNgay.sql
 │
 ├── 04_Indexes/             ← Indexes & Constraints
 │   └── All_Indexes.sql
 │
-└── 05_SeedData/            ← Seed Data
+└── 05_SeedData/            ← Seed Data (VaiTro, QuyenHan)
     ├── Seed_Roles_Permissions.sql
     ├── Seed_ProductCategories.sql
     └── Seed_SystemConfig.sql
